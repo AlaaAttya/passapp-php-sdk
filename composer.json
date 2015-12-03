@@ -1,0 +1,17 @@
+{
+    "name": "alaa/passapp-php-sdk",
+    "description": "PassApp PHP SDK",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alaa Attya",
+            "email": "alaa.attya91@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "classmap": [
+            "src"
+        ]
+    }
+}
