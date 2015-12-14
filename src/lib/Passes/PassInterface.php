@@ -2,7 +2,11 @@
 
 namespace PassApp\Lib\Passes;
 
-
+/**
+ * Common methods to be implemented by all the pass types
+ *
+ * @author  Alaa Attya <alaa.attya91@gmail.com>
+ */
 interface PassInterface {
 
     // Create a new Pass

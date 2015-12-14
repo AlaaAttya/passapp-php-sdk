@@ -1,18 +1,16 @@
 <?php
 
+namespace PassApp\Lib\Passes;
+
+use PassApp\Lib\Passes\Constants\SerialType;
+use PassApp\Lib\PassFactory;
+use PassApp\PassApp;
+
 /**
  * BasePass which holds the common Passes data and operations
  *
  * @author  Alaa Attya <alaa.attya91@gmail.com>
  */
-
-namespace PassApp\Lib\Passes;
-
-use PassApp\Lib\HTTP\PassAppRequest;
-use PassApp\Lib\PassFactory;
-use PassApp\PassApp;
-
-
 class BasePass extends PassApp {
 
 
@@ -702,13 +700,23 @@ class BasePass extends PassApp {
         //$this->setCheckinMaximum($checkin_maximum);
 
         $this->setDescription($data['description']);
-        $this->setDetails($data['details']);
+
+        // Handling the ambiguous seating info object issue
+        $details = $data['details'];
+        foreach($details as &$detail) {
+            if(count($detail['seating_info']) <= 0) {
+                $detail['seating_info'] = (object) array();
+            }
+        }
+        $this->setDetails($details);
+
+
         $this->setEndsAt($data['ends_at']);
         $this->setExpirationType($data['expiration_type']);
         $this->setImageUrl($data['image_url']);
 
-        $owner_mobile = str_replace("00", "", $data['owner_phone']);
-        $owner_mobile = str_replace("+", "", $data['owner_phone']);
+        $owner_mobile = str_replace("00", "", $data['owner']['phone']);
+        $owner_mobile = str_replace("+", "", $data['owner']['phone']);
         $this->setOwnerPhone($owner_mobile);
 
         $this->setPlaceAddress($data['place_address']);
@@ -716,7 +724,7 @@ class BasePass extends PassApp {
         $this->setPlaceFacebook($data['place_facebook']);
         $this->setPlaceLatitude($data['place_latitude']);
         $this->setPlaceLongitude($data['place_longitude']);
-        $this->setPlaceName($data['place_name']);
+        $this->setPlaceName('');
 
         $place_phone = str_replace("00", "", $data['place_phone']);
         $place_phone = str_replace("+", "", $data['place_phone']);
@@ -727,12 +735,18 @@ class BasePass extends PassApp {
         $this->setSerialType($data['serial_type']);
         $this->setStartsAt($data['starts_at']);
 
-        $user_phone = str_replace("00", "", $data['user_phone']);
-        $user_phone = str_replace("+", "", $data['user_phone']);
+        $user_phone = str_replace("00", "", $data['user']['phone']);
+        $user_phone = str_replace("+", "", $data['user']['phone']);
         $this->setUserPhone($user_phone);
 
         $this->setSponsorsLogosUrls($data['sponsors_logos_urls']);
-        $this->setEventId($data['event_id']);
+
+
+        $event_id = '';
+        if(isset($data['event']['id'])) {
+            $event_id = $data['event']['id'];
+        }
+        $this->setEventId($event_id);
     }
 
     /**

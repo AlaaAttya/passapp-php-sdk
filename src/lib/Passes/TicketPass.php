@@ -1,16 +1,16 @@
 <?php
 
+namespace PassApp\Lib\Passes;
+
+use PassApp\Lib\Passes\Constants\ExpirationType;
+use PassApp\Lib\Passes\Constants\PassableType;
+
 /**
  * Ticket pass modeling
  *
  * @author  Alaa Attya <alaa.attya91@gmail.com>
  */
-namespace PassApp\Lib\Passes;
-
-use PassApp\Lib\HTTP\PassAppRequest;
-
 class TicketPass extends BasePass implements PassInterface {
-
 
     /**
      * Set the passable type to be 'Ticket' by default
@@ -26,38 +26,52 @@ class TicketPass extends BasePass implements PassInterface {
     }
 
     /**
-     * @var string passable attributes title
+     * Passable attributes title
+     *
+     * @var string
      */
     private $title;
 
     /**
-     * @var string  passable attributes price
+     * Passable attributes price
+     *
+     * @var string
      */
     private $price;
 
     /**
-     * @var string  passable attributes currency
+     * Passable attributes currency
+     *
+     * @var string
      */
     private $currency;
 
     /**
-     * @var string  passable attributes payment status
-     * Excepeted vales are 'paid', 'not_paid'
+     * Passable attributes payment status
+     * Expected vales are 'paid', 'not_paid'
+     *
+     * @var string
      */
     private $payment_status;
 
     /**
-     * @var string  passable attributes icon url
+     * Passable attributes icon url
+     *
+     * @var string
      */
     private $icon;
 
     /**
-     * @var string  passable attributes event name
+     * Passable attributes event name
+     *
+     * @var string
      */
     private $event_name;
 
     /**
-     * @var string  passable attributes description
+     * Passable attributes description
+     *
+     * @var string
      */
     private $description;
 
