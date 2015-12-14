@@ -2,16 +2,18 @@
 
 namespace PassApp;
 
-use PassApp\Lib\PassFactory;
+use PassApp\Lib\HTTP\PassAppRequest;
+use PassApp\Lib\Passes\BasePass;
 use PassApp\Lib\Events\PassAppEvent;
 use PassApp\Lib\Users\PassAppUser;
-
+use GuzzleHttp\Client;
 
 /**
  * PassApp SDK
  * This class is used to access all the API resources
  *
  * @author  Alaa Attya <alaa.attya91@gmail.com>
+ * @link    http://api.passapp.io
  * @date    3-12-2015 (while being at the train traveling to Alexandria)
  */
 class PassApp {
@@ -22,23 +24,7 @@ class PassApp {
      * @var     string
      * @access  private
      */
-    private $_api_base_url = '';
-
-    /**
-     * PassApp application key
-     *
-     * @var     string
-     * @access  private
-     */
-    private $_app_key = '';
-
-    /**
-     * PassApp application secret
-     *
-     * @var     string
-     * @access  private
-     */
-    private $_app_secret = '';
+    private $api_base_url = 'https://api.passapp.io/';
 
     /**
      * Pass object which will be used to handle pass operations
@@ -65,27 +51,36 @@ class PassApp {
     public $User;
 
     /**
+     * Request client
+     *
+     * @var     PassAppRequest
+     * @access  protected
+     */
+    protected $_request_client;
+
+    /**
      * Create App object
      *
      * @param   string  $app_key
      * @param   string  $app_secret
      */
     public function __construct($app_key, $app_secret, $api_url = null) {
-        $this->_app_key = $app_key;
-        $this->_app_secret = $app_secret;
 
         if(!is_null($api_url)) {
-            $this->_api_base_url = $api_url;
+            $this->api_base_url = $api_url;
         }
 
+        // Initialize request object
+        $this->_request_client = new PassAppRequest($this->api_base_url, $app_key, $app_secret);
+
         // Initialize Passe object
-        $this->Passes = new PassFactory($this);
+        $this->Passes = new BasePass();
 
         // Initialize Event object
-        $this->Events = new PassAppEvent($this);
+        $this->Events = new PassAppEvent();
 
         // Initialize User object
-        $this->User = new PassAppUser($this);
+        $this->User = new PassAppUser();
     }
 
 

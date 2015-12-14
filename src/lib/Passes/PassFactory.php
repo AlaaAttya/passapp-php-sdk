@@ -17,39 +17,27 @@ use PassApp\Lib\Exceptions\InvalidPassableTypeException;
  */
 class PassFactory {
 
-
-    private $_pass_app_base;
-
-    /**
-     * Set the base pass app API attributes
-     *
-     * @param   string  $pass_app_base
-     */
-    public function __construct($pass_app_base) {
-        $this->_pass_app_base;
-    }
-
     /**
      * Create Pass object according to its type
      *
      * @param   string  $pass_type
      * @return  Object
      */
-    public function getInstance($pass_type) {
+    public static function getInstance($pass_type) {
         $pass_object = null;
 
         switch($pass_type) {
             case PassableType::TICKET_PASS:
-                $pass_object = new TicketPass($this->_pass_app_base);
+                $pass_object = new TicketPass();
                 break;
             case PassableType::BOARDING_PASS:
-                $pass_object = new BoardingPass($this->_pass_app_base);
+                $pass_object = new BoardingPass();
                 break;
             case PassableType::INVITATION_PASS:
-                $pass_object = new InvitationPass($this->_pass_app_base);
+                $pass_object = new InvitationPass();
                 break;
             case PassableType::MEMBERSHIP_PASS;
-                $pass_object = new MembershipPass($this->_pass_app_base);
+                $pass_object = new MembershipPass();
                 break;
             default:
                 throw new InvalidPassableTypeException("Invalid passable type $pass_type, allowed vales are 'Ticket', 'Boarding', 'Invitation' and 'Membership'");

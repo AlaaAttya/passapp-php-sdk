@@ -8,7 +8,9 @@
             "email": "alaa.attya91@gmail.com"
         }
     ],
-    "require": {},
+    "require": {
+        "guzzlehttp/guzzle": "6.x"
+    },
     "autoload": {
         "classmap": [
             "src"

@@ -1,6 +1,7 @@
 <?php
 
 namespace PassApp\Lib\HTTP;
+use GuzzleHttp\Client;
 
 /**
  * Created by PhpStorm.
@@ -10,9 +11,22 @@ namespace PassApp\Lib\HTTP;
  */
 class PassAppRequest {
 
+    private $api_base_url;
 
-    public function __construct() {
+    private $app_key;
 
+    private $app_secret;
+
+    private $guzzle_client;
+
+    /**
+     */
+    public function __construct($api_base_url, $app_key, $app_secret) {
+        $this->api_base_url = $api_base_url;
+        $this->app_key = $app_key;
+        $this->app_secret = $app_secret;
+
+        $this->guzzle_client = new Client(['base_uri' => $this->api_base_url]);
     }
 
     /**
@@ -24,6 +38,9 @@ class PassAppRequest {
      * @param   array   $headers    request extra headers
      */
     public function create($method, $path, $data, $headers) {
-        return \json_encode($data);
+        return $this->guzzle_client->request($method, $path, array(
+            'headers' => $headers,
+            'json' => \json_encode($data)
+        ))->getBody()->getContents();
     }
 }
